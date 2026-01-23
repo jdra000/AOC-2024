@@ -42,6 +42,20 @@ func solvePart1(left, right []int) (sum int) {
 	}
 	return sum
 }
+
+func solvePart2(left, right []int) (sum int) {
+	mapRight := make(map[int]int)
+
+	for _, v := range right {
+		mapRight[v] += 1
+	}
+
+	for _, v := range left {
+		sum += v * mapRight[v]
+	}
+	return sum
+}
+
 func main() {
 	file, err := os.Open("./file.txt")
 	if err != nil {
@@ -52,5 +66,6 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Printf("Part1: %d", solvePart1(left, right))
+	fmt.Printf("Part2: %d", solvePart2(left, right))
 
 }
