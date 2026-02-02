@@ -69,3 +69,5 @@ func main() {
 	fmt.Printf("Part2: %d", solvePart2(left, right))
 
 }
+
+

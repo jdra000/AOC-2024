@@ -6,12 +6,43 @@ import (
 	"io"
 	"log"
 	"os"
+	"slices"
 	"strconv"
 	"strings"
 
 	"github.com/jdra000/AOC-2024/helper"
 )
 
+func isSafe(nums []int, retry bool) bool {
+
+	var diff int
+
+	increasing := nums[1] > nums[0]
+	for i := 0; i < len(nums)-1; i++ {
+		diff = helper.Abs(nums[i] - nums[i+1])
+		decLevel := diff < 1 || diff > 3
+
+		disorder := (increasing && nums[i] > nums[i+1]) ||
+			(!increasing && nums[i+1] > nums[i])
+
+		if decLevel || disorder {
+			if retry {
+				return isSafe(slices.Delete(nums, i+1, i+2), false)
+			}
+			return false
+		}
+	}
+	//fmt.Printf("%v: safe \n", nums)
+	return true
+}
+func toInt(str []string) []int {
+	var nums []int
+	for _, v := range str {
+		val, _ := strconv.Atoi(v)
+		nums = append(nums, val)
+	}
+	return nums
+}
 func readLine(file io.Reader) {
 
 	scanner := bufio.NewScanner(file)
@@ -19,41 +50,9 @@ func readLine(file io.Reader) {
 	// solving part 1
 	var validCount int
 	for scanner.Scan() {
-		nums := strings.Split(scanner.Text(), " ")
+		nums := toInt(strings.Split(scanner.Text(), " "))
 
-		// logic
-		var diff int
-		inc, dec := false, false
-		flag := true
-
-		for i, v := range nums {
-			value, _ := strconv.Atoi(v)
-			nextValue, _ := strconv.Atoi(nums[i+1])
-
-			diff = helper.Abs(value - nextValue)
-			if diff < 1 || diff > 3 {
-				flag = false
-			}
-
-			if inc || dec {
-				if inc && value > nextValue {
-					flag = false
-				} else if dec && nextValue > value {
-					flag = false
-				}
-			}
-
-			if value < nextValue {
-				inc = true
-			} else {
-				dec = true
-			}
-
-			if (i + 2) == len(nums)-1 {
-				break
-			}
-		}
-		if flag {
+		if isSafe(nums, true) {
 			validCount++
 		}
 	}
