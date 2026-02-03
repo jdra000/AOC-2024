@@ -7,7 +7,6 @@ import (
 	"log"
 	"os"
 	"slices"
-	"strconv"
 	"strings"
 
 	"github.com/jdra000/AOC-2024/helper"
@@ -44,25 +43,27 @@ func isSafe(nums []int, retry bool) bool {
 func toInt(str []string) []int {
 	var nums []int
 	for _, v := range str {
-		val, _ := strconv.Atoi(v)
-		nums = append(nums, val)
+		nums = append(nums, helper.MustAtoi(v))
 	}
 	return nums
 }
-func readLine(file io.Reader) {
+func performCalc(file io.Reader) {
 
 	scanner := bufio.NewScanner(file)
 
-	// solving part 1
-	var validCount int
+	var validCountDay1 int
+	var validCountDay2 int
 	for scanner.Scan() {
 		nums := toInt(strings.Split(scanner.Text(), " "))
 
 		if isSafe(nums, true) {
-			validCount++
+			validCountDay2++
+		}
+		if isSafe(nums, false) {
+			validCountDay1++
 		}
 	}
-	fmt.Println(validCount)
+	fmt.Printf("day1: %d - day2: %d\n", validCountDay1, validCountDay2)
 }
 
 func main() {
@@ -70,5 +71,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	readLine(file)
+	defer file.Close()
+	performCalc(file)
 }
