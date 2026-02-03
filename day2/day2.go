@@ -27,12 +27,18 @@ func isSafe(nums []int, retry bool) bool {
 
 		if decLevel || disorder {
 			if retry {
-				return isSafe(slices.Delete(nums, i+1, i+2), false)
+				for i := 0; i <= len(nums)-1; i++ {
+					s1 := nums[:i]
+					s2 := nums[i+1:]
+					if isSafe(slices.Concat(s1, s2), false) {
+						return true
+					}
+				}
+				return false
 			}
 			return false
 		}
 	}
-	//fmt.Printf("%v: safe \n", nums)
 	return true
 }
 func toInt(str []string) []int {
