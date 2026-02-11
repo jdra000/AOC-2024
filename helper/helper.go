@@ -2,8 +2,8 @@ package helper
 
 import (
 	"log"
+	"os"
 	"strconv"
-    "os"
 )
 
 func Abs(x int) int {
@@ -21,10 +21,10 @@ func MustAtoi(s string) int {
 	return num
 }
 
-func OpenFile(s string) (f *os.File){
-   f, err := os.Open(s)
-   if err != nil {
-        log.Fatal(err)
-   }
-   return f
+func OpenFile(s string) (f *os.File) {
+	f, err := os.Open(s)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return f
 }
