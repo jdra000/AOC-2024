@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func arrInt(arr []string) []int {
+func strArrToInt(arr []string) []int {
 	var intArr []int
 	for _, v := range arr {
 		intArr = append(intArr, helper.MustAtoi(v))
@@ -39,7 +39,7 @@ func main() {
 		}
 		rule = scan.Text()
 		str := strings.Split(rule, "|")
-		nums := arrInt(str)
+		nums := strArrToInt(str)
 
 		rules[nums[0]] = append(rules[nums[0]], nums[1])
 	}
@@ -50,7 +50,7 @@ func main() {
 	for scan.Scan() {
 
 		str := strings.Split(scan.Text(), ",")
-		nums := arrInt(str)
+		nums := strArrToInt(str)
 
 		numscpy := slices.Clone(nums)
 		numsDoublecpy := slices.Clone(nums)
