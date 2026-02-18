@@ -21,6 +21,12 @@ func MustAtoi(s string) int {
 	return num
 }
 
+func ToIntArr(str []string) (nums []int) {
+	for _, v := range str {
+		nums = append(nums, MustAtoi(v))
+	}
+	return nums
+}
 func OpenFile(s string) (f *os.File) {
 	f, err := os.Open(s)
 	if err != nil {
